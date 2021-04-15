@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/review.css') }}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- Hidden data -->
+<p hidden id="filterTagArray"></p>
+<!-- -->
+
+<div class="border rounded ourProductsBorder">
+    <!-- tags -->
+    <div class="margin5 align-items-center">
+        <h4 class="margin5">Tags:</h4>
+        <div class="row margin0 ">
+        {% for tag in tagsList %}
+            <div class="form-group d-flex align-items-center margin0">
+                <input required type="button" onclick="tag_click('{{ tag }}');" class="form-control tagblock" id="{{ tag }}" value="{{ tag }}">
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <hr class="margin0">
+
+
+    <!-- items -->
+    <div class="row ourProductsBorder">
+        <div class="col-sm-12 ourProductsProducts">
+            <div id="filterNoneFound" style="display:none" class="border rounded minheight300">
+                <p class="margin5">No furniture that fufills all filters</p>
+            </div>
+            <div class="row" id="products">
+            {% for furniture in furnitureList %}
+                <a id="{{furniture.get_furnitureID()}}" class="unhyperlink col-sm-3 border-right border-bottom rounded" href="/ourProducts/{{furniture.get_furnitureID()}}">
+                    <div class="height300 d-flex align-items-center">
+                        <img class="align-middle productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                    </div>
+                    <hr>
+                    <h4>{{ furniture.get_name() }}</h4>
+                    <div class="d-flex">
+                        <div>
+                            {% if furniture.get_stars()|round == 5 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            {% elif furniture.get_stars()|round == 4 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            {% elif furniture.get_stars()|round == 3 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            {% elif furniture.get_stars()|round == 2 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            {% elif furniture.get_stars()|round == 1 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            {% elif furniture.get_stars()|round == 0 %}
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            {% endif %}
+                        </div>
+                        <p class="marginleft5">({{furniture.get_stars()}})</p>
+                        <p class="marginleft5">${{ furniture.get_cost() }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+
+        var furnitureContainer = document.getElementById('products')
+        var a = furnitureContainer.getElementsByTagName('a')
+        console.log(a)
+
+        for (i = 0; i < a.length; i++) {
+            var name = a[i].getElementsByTagName("h4")[0];
+            txtValue = name.textContent || name.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+    window.addEventListener("load",function(event) {
+        myFunction();
+    },false);
+
+    function loadTag() {
+        var tag = document.getElementById('{{ session['SELECTTAG'] }}').value
+        console.log(tag)
+        fetch(`${window.origin}/unload_tag`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(tag),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        });
+        tag_click(tag)
+    }
+    {% if session['SELECTTAG'] %}
+        window.onload = loadTag;
+    {% endif %}
+
+    function tag_click(tagValue) {
+        <!-- Making page list -->
+        var tagText = document.getElementById('filterTagArray').innerHTML;
+        var tagList = tagText.split(',');
+        if (tagList[0] == ""){
+            tagList.pop("");
+        };
+        <!-- Changing tag css/color -->
+        var tagValue = tagValue;
+        if ( document.getElementById(tagValue).classList.contains('filtertagbutton') ){
+            var index = tagList.indexOf(tagValue);
+            if (index > -1) {
+              tagList.splice(index, 1);
+            };
+            document.getElementById(tagValue).classList.toggle('filtertagbutton');
+            document.getElementById(tagValue).style.background = "white";
+            document.getElementById('filterTagArray').innerHTML = tagList.toString()
+        } else{
+            tagList.push(tagValue);
+            document.getElementById(tagValue).classList.toggle('filtertagbutton');
+            document.getElementById(tagValue).style.background = "grey";
+            document.getElementById('filterTagArray').innerHTML = tagList.toString()
+        }
+
+        <!------------------------ Getting Dict object ----------------------------------->
+        var object = 'Hello!'
+
+        fetch(`${window.origin}/tags_click`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(object),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var tagToId = data
+                console.log(tagToId)
+        <!--------------------------------------------------------------------------->
+
+                <!-- Changing Product Display -->
+                var childDivs = document.getElementById('products').getElementsByTagName('a');
+                for( i=0; i< childDivs.length; i++ ){
+                    var childDiv = childDivs[i];
+                    childDiv.style.display = "block";
+                };
+
+                if (tagList.length != 0){
+                    for( i=0; i< childDivs.length; i++ ){
+                        var childDiv = childDivs[i];
+                        childDiv.style.display = "none";
+                    };
+
+                    var compareList = [];
+                    var allId = [];
+                    for (i in tagList){
+                        var tag = tagList[i];
+                        var idForTag = tagToId[tag];
+                        compareList.push(idForTag);
+                        console.log(compareList);
+                        for (j in idForTag){
+                            id = idForTag[j];
+                            if (!allId.includes(id)){
+                                allId.push(id);
+                            }
+                        }
+                        console.log(allId);
+                    };
+
+                    var filteredIdList = [];
+                    for (i in allId){
+                        id = allId[i];
+                        var inAll = true;
+                        for (j in compareList){
+                            eachList = compareList[j];
+                            if (!eachList.includes(id)){
+                                inAll = false;
+                            };
+                        };
+                        if (inAll){
+                            filteredIdList.push(id);
+                        };
+                    };
+
+                    for (i in filteredIdList){
+                        id = filteredIdList[i];
+                        document.getElementById(id).style.display = "block";
+                    };
+
+                    if (filteredIdList.length == 0){
+                        document.getElementById("filterNoneFound").style.display= "block";
+                    } else{
+                        document.getElementById("filterNoneFound").style.display= "none";
+                    };
+                };
+            })
+        })
+    };
+
+</script>
+{% endblock %}

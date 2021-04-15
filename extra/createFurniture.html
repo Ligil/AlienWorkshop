@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Add Furniture{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<div class="container-fluid col-sm-8 border rounded usercreatelogin">
+    <h1 class="display-4">Upload Furniture</h1>
+    <hr>
+    <form action="/createFurniture" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="furnitureName">Name</label>
+            <input type="text" class="form-control" name="furnitureName" id="furnitureName" placeholder="Name">
+        </div>
+
+        <div class="form-group">
+            <label>Select Image</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image" id="image">
+                <label class="custom-file-label" for="image">Select image...</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="furnitureCost">Cost ($)</label>
+            <input type="number" class="form-control" name="furnitureCost" id="furnitureCost" min="0" placeholder="Example input">
+        </div>
+        <div class="form-group">
+            <label for="furnitureDescription">Description</label>
+            <input type="text" class="form-control" name="furnitureDescription" id="furnitureDescription" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="furnitureDimensions">Dimensions Text</label>
+            <input type="text" class="form-control" name="furnitureDimensions" id="furnitureDimensions" placeholder="Dimensions">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload Image</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block title %}Frequently Asked Questions{% endblock %}
+{% block content %}
+<h1 class="display-4">FAQ</h1>
+<div class="row margin10">
+    <!-- Navigator -->
+    <div class="FAQNavigator border rounded col-sm-2">
+        <h5 class="display-7">General</h5>
+        <h5 class="display-7">Business/Delivery</h5>
+        <h5 class="display-7">Billing Enquiries</h5>
+    </div>
+    <!-- Contents -->
+    <div class="border rounded col-sm-10" >
+        <!-- Accordion General -->
+        <h3 class="display-7 margin10">General</h3>
+        <div class="accordion" id="accordion">
+            <div>
+                <div id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          1. How do I cancel my order
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                       No cancellation can be done once the order and services are paid and confirmed. Please call us at +65 92040421 for any further service.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            2. How do I return or exchange an item?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        If you would like to return your products to one of our stores, please bring a printed copy of the tax invoice your received per e-mail after
+                        your purchase. Otherwise, we will not be able to process your requests.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            3. How do I amend my order?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        No amendment can be done once the order and services are paid and confirmed.
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="heading3">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                            4. What happens if I do not receive my order? Can I ask for a refund?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion">
+                    <div class="card-body">
+                        We strongly encourage you to check with the seller via Contact Us page. If you still have not received your order, we will personally contact the seller and the seller will be notified of your request and has to respond within 3 days or we will automatically cancel the order and refund your payment.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Accordion General End -->
+        <h3 class="display-7 margin10">Business/Delivery</h3>
+        <div class="accordion" id="accordion2">
+            <div>
+                <div id="heading4">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                          1. What Payment methods do you accept?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordion">
+                    <div class="card-body">
+                    You can pay with Visa, Mastercard.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="heading5">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                      2. How much would delivery service cost
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordion">
+                  <div class="card-body">
+                    Parcel Delivery - $10 per order.
+                  </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="heading6">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                            3. How can I know the exact date and time of the delivery?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordion">
+                    <div class="card-body">
+                    We apologize that we are unable to give you an exact date and the time of delivery. The delivery time for your order depends on the sellers you have ordered from. If you have local sellers, you can expect to receive your order within 1 to 5 business days after you have received our shipped notification email.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="display-7 margin10">Billing Enquiries</h3>
+        <div class="accordion" id="accordion3">
+            <div>
+                <div id="heading7">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                          1. How do i return my wrong/damaged item once the return request has been confirmed?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#accordion">
+                    <div class="card-body">
+                        Once the return request has been confirmed by the seller or Shopee Dispute Team, you will have 3 days to return your request once it is approved by the seller. A return shipping label will be sent to your email address.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="heading8">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                        2. Will my return shipping fee be covered, when I shipped back to seller?
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#accordion">
+                  <div class="card-body">
+                      Yes. Firstly, you should pay for the return postage(keep the receipt!). Then ship the order back to the return address and send a picture of the receipt to us. We will then transfer you back the shipping amount accordingly.
+                  </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="heading9">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed unhyperlink" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                        3. What if I would like to do an exchange?
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#accordion">
+                    <div class="card-body">
+                        Unfortunately, at this time we are unable to complete exchanges. If you would like yo exchange your product, please return your original purchase and create a new order for your desired purchase.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

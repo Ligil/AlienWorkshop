@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Confirmation order{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css') }}">
+<div class="container-fluid col-sm-4 border rounded usercreatelogin">
+    <h1 class="display-4">Create Order</h1>
+    <table>
+        <tr>
+            <td>Credit Card Number:</td><td>{{displayccn}}</td><td>Card Holder:</td><td>{{ccobject.get_fullname()}}</td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+
+    </table>
+    <form method="POST">
+<!--   removal of ccnumber field     -->
+        <div class="form-group">
+        {{ render_field(form.postalcode, class="form-control") }}
+        </div>
+        <div class="form-group">
+        {{ render_field(form.country, class="form-control") }}
+        </div>
+
+        <div class="form-group">
+        {{ render_field(form.phonenumber, class="form-control") }}
+        </div>
+        <div class="form-group">
+        {{ render_field(form.deliveryaddress, class="form-control") }}
+        </div>
+        <input type="submit" value="Submit" class="btn btn-primary"/>
+    </form>
+</div>
+{% endblock %}

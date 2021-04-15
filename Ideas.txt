@@ -1,0 +1,68 @@
+Admin
+1. Forget password button
+- email in registration and object 
+- random generate a link of about 8 digits, 8 digit is stored in a link
+
+@app.route('forgetPassword')
+def forgetPassword():
+
+while 8digits not in digitsList 
+8digits = ''
+
+for i in range(16):
+  8digits += random.randint(0,9)
+
+digitsList = []
+db = shelve.open('storage.db', 'c') #assign storage file to variable database, c stands for read and write
+try:
+  digitsList = db['ForgetPwDigits'] #assign Users storage into usersDict
+except:
+  pass
+
+digitsList.append(8digits)
+
+db['ForgetPwDigits'] = digitsList
+db.close() #always close your database
+
+return redirect(url_for('home'))
+
+
+
+
+link = request.url_root + '/forgetPassword/' + digits
+
+
+- @app.route('/newPassword/<int:digits>')
+def newPassword(digits):
+digitsList = []
+db = shelve.open('storage.db', 'c') #assign storage file to variable database, c stands for read and write
+try:
+digitsList = db['ForgetPwDigits'] #assign Users storage into usersDict
+except:
+pass
+if digits not in digitsList:
+return redirect(url_for('home'))
+
+
+
+
+2. Instead do a form for admins to choose 6 items to put in home page for display
+- maybe a carousel that infinitely scrolls
+  - stops when hover
+
+When Teammates done
+4. update user class to contain purchased items id, in order to find other likely products you would buy using the most common tags
+5. if bought 2 or more items, use furniture object attribute 'otherboughtobjects' to find up to 5 other objects that other people bought along with this product
+
+Problems:
+Fix decimal field 2 dp for create furniture (UNFIXED)
+Move add to cart button down (UNDONE)
+
+
+
+
+IMPORTANT
+If inheritance is necessary, do admin(User) class
+fix email input validation
+usersDict[id].set_resetPassword(None)
+Question: how does  

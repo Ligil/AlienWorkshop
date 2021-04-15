@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/review.css') }}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        {{ render_field(form.review, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.image, class="form-control") }}
+    </div>
+
+    <div class="rating">
+        <input type="radio" name="star" id="star5" value="5">
+        <label for="star5"></label>
+        <input type="radio" name="star" id="star4" value="4">
+        <label for="star4"></label>
+        <input type="radio" name="star" id="star3" value="3">
+        <label for="star3"></label>
+        <input type="radio" name="star" id="star2" value="2">
+        <label for="star2"></label>
+        <input checked type="radio" name="star" id="star1" value="1">
+        <label for="star1"></label>
+    </div>
+    <button type="submit" class="btn btn-primary">SEND</button>
+</form>
+
+{% endblock %}

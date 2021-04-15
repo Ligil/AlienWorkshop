@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Furniture List{% endblock %}
+{% block content %}
+
+<h1 class="display-4">Retrieve Furniture</h1>
+<div>
+ {% if count == 0 %}
+    <p>There are no items.</p>
+ {% elif count == 1 %}
+    <p>There is 1 item.</p>
+ {% else %}
+    <p>There are {{ count }} items.</p>
+ {% endif %}
+</div>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Furniture ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Cost</th>
+                <th>Tags</th>
+                <th>Description</th>
+                <th>Dimensions (L x W x H)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for furniture in furnitureList %}
+            <tr>
+                <td>{{ furniture.get_furnitureID() }}</td>
+                <td>{{ furniture.get_name() }}</td>
+                <td>
+                    <div class="col-sm-4 border rounded">
+                        <img class='productsPicture' src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                    </div>
+                </td>
+                <td>${{ furniture.get_cost() }}</td>
+                <td>
+                    {% for tag in furniture.get_tags() %}
+                       <div class="border rounded tagblock">
+                           {{ tag }}
+                       </div>
+                    {% endfor %}
+                </td>
+                <td>{{ furniture.get_description() }}</td>
+                <td>{{ furniture.get_length() }}cm x {{ furniture.get_width() }}cm x {{ furniture.get_height() }}cm</td>
+                <td><a href="/updateFurniture/{{furniture.get_furnitureID()}}" class="btn btn-warning">Update</a></td>
+                <td>
+                    <form action="{{url_for('deleteFurniture', id=furniture.get_furnitureID())}}" method="POST">
+                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Furniture?');">
+                    </form>
+                </td>
+             </tr>
+             {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

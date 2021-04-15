@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css') }}">
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>WELCOME TO THE</p>
+            <h2>ALIEN WORKSHOP</h2>
+        </header>
+    </div>
+</section>
+
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="grid-style">
+            <div>
+                <div class="box">
+                    <div class="image fit">
+                        <img src="images/pic02.jpg" alt="" />
+                    </div>
+                    <div class="content">
+                        <header class="align-center">
+                            <p>More about the</p>
+                            <h2>Alien Workshop</h2>
+                        </header>
+                        <p>The first online luxury furniture and home furnishing e-store with a physical retail outlet in Singapore. It specializes in Living Room and Dining Room furniture, and home & décor furnishing accessories, accent centerpiece, modern chesterfield sofa, coffee table, decorative wall mirror, cabinet, credenza, unique mirrored furniture, armchair, designer rugs, lamps and feather & down cushions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="box">
+                    <div class="image fit">
+                        <img src="images/pic03.jpg" alt="" />
+                    </div>
+                    <div class="content">
+                        <header class="align-center">
+                            <p>Join the</p>
+                            <h2>Family</h2>
+                        </header>
+                        <p>Sign up to be in know on Promotions, Sale Events and Online Giveaways! </n>and, get tips on Home Design Ideas & Decor Inspirations!</n><strong> Be in the know, now.</strong>                                                                                                </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+		<!-- Two -->
+<section id="two" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>Rated Year of 2019</p>
+            <h2>BEST CUSTOMER SERVICE IN INDUSTRY</h2>
+        </header>
+    </div>
+</section>
+{% if count != 0 %}
+<section id="three" class="wrapper style4">
+    <div class="inner">
+        <header class="align-center">
+            <p class="special">View some of our products</p>
+            <h2>Gallery</h2>
+        </header>
+        <div class="margintop10 d-flex justify-content-center">
+            <div id="carouselExampleInterval" class="carousel slide col-sm-8 border-left" data-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Content -->
+                    {% for listgroup in display %}
+                    {% if listgroup == display[0] %}
+                    <div class="carousel-item active" data-interval="5000">
+                        {% else %}
+                        <div class="carousel-item" data-interval="5000">
+                            {% endif %}
+                            <div class="row">
+                                {% for furniture in listgroup %}
+                                <div class="col-sm-4 border-right border-bottom rounded" id="{{furniture.get_furnitureID()}}">
+                                    <a href="/ourProducts/{{furniture.get_furnitureID()}}" class="unhyperlink">
+                                        <div class="height300 d-flex align-items-center">
+                                            <img class="align-middle productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                                        </div>
+                                        <hr>
+                                        <h4>{{ furniture.get_name() }}</h4>
+                                        <p>${{ furniture.get_cost() }}</p>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- -->
+                    </div>
+                </div>
+                {% if count > 1 %}
+                <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" style="color: black" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

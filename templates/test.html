@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<ul id="myUL">
+  <li><a href="#">Adele</a></li>
+  <li><a href="#">Agnes</a></li>
+
+  <li><a href="#">Billy</a></li>
+  <li><a href="#">Bob</a></li>
+
+  <li><a href="#">Calvin</a></li>
+  <li><a href="#">Christina</a></li>
+  <li><a href="#">Cindy</a></li>
+</ul>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+
+        filter = input.value.toUpperCase();
+
+        var furnitureContainer = document.getElementById('products')
+        var a = furnitureContainer.getElementsByTagName('a')
+        console.log(a)
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < a.length; i++) {
+        var name = a[i].getElementsByTagName("h4")[0];
+        txtValue = name.textContent || name.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          furnitureContainer[i].style.display = "";
+        } else {
+          a[i].style.display = "none";
+        }
+      }
+    }

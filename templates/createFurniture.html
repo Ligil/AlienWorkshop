@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Add Furniture{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<div class="container-fluid col-sm-8 border rounded usercreatelogin">
+    <h1 class="display-4">Create Furniture</h1>
+    <form method="POST" enctype="multipart/form-data" action="">
+        <div class="form-group">
+        {{ render_field(form.name, class="form-control") }}
+        </div>
+        <img id="image" style="display:none" class="height300 productspicture"/>
+        <div class="form-group">
+        {{ render_field(form.image, id="files", class="form-control"   ) }}
+        </div>
+        <div class="form-group">
+        {{ render_field(form.cost, class="form-control") }}
+        </div>
+
+        {% if tagCount != 0 %}
+            <p>These are the current existing Tags</p>
+            <div class="row border rounded marginleft5 marginright5 padding10">
+                {% for tag in tagList %}
+                    <div class="border rounded tagblock">
+                        {{ tag }}
+                    </div>
+                {% endfor %}
+            </div>
+            <br>
+        {% endif %}
+
+        <div class="form-group">
+        {{ render_field(form.tags, class="form-control") }}
+        </div>
+        <div class="form-group">
+        {{ render_field(form.description, class="form-control") }}
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+            {{ render_field(form.length, class="form-control") }}
+            </div>
+            <div class="form-group col-sm-4">
+            {{ render_field(form.width, class="form-control") }}
+            </div>
+            <div class="form-group col-sm-4">
+            {{ render_field(form.height, class="form-control") }}
+            </div>
+        </div>
+        <input type="submit">
+    </form>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+document.getElementById("files").onchange = function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+
+    document.getElementById("image").style.display = "block";
+};
+</script>
+{% endblock %}

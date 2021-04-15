@@ -1,0 +1,96 @@
+<nav class="navbar navbar-expand-sm navbar-dark navigation fixed-top" style="background-color: #0ad4de;">
+  <!-- Brand -->
+    <a class="navbar-brand" href="/">
+      <img class="productsPicture" src="{{url_for('static', filename='AlienWorkshop.png' ) }}">
+    </a>
+
+    <!-- Links -->
+    <div class="d-flex align-items-center justify-content-between col-sm-11">
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/ourProducts" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;">Products</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">Help</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/FAQ">FAQ</a>
+                        <a class="dropdown-item" href="/question">Ask Questions</a>
+                        <a class="dropdown-item" href="/contactUs">Contact Us</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="w-100">
+            {%- if request.path == "/ourProducts" %}
+                <div class="row margin0 align-items-center justify-content-center">
+                    <input type="text" class="w-75 maxwidth250 marginright5" id="myInput" onkeyup="myFunction()" {%- if searchValue %} value={{ searchValue }} {%- else %} placeholder="Search for products.." {% endif %}>
+                </div>
+            {%- else %}
+            <form class="row margin0 align-items-center justify-content-center" action="{{ url_for('ourProducts') }}" method="POST">
+                <input type="text" name="search" class="w-75 maxwidth250 marginright5" placeholder="Search for products.." >
+            </form>
+            {% endif %}
+        </div>
+
+        <div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Cart" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;">Cart</a>
+                </li>
+                {% if session["USERID"] %}
+                    {% if session["ADMIN"] %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">
+                            Admin Functions
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/createFurniture">Create Furniture</a>
+                                <a class="dropdown-item" href="/retrieveFurniture">Retrieve Furniture</a>
+                                <a class="dropdown-item" href="/charts">Charts</a>
+                                <a class="dropdown-item" href="/retrieveUsers">Retrieve Users</a>
+                                <a class="dropdown-item" href="/homeDisplayItems">Home Display Items</a>
+                                <a class="dropdown-item" href="/displayorders">Display Orders</a>
+                                <a class="dropdown-item" href="/retrievequestions">Questions asked</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">
+                        Your Account
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/profile">Profile Page</a>
+                            <a class="dropdown-item" href="/inbox">Inbox</a>
+                            <a class="dropdown-item" href="/wishlist">WishList</a>
+                            <a class="dropdown-item" href="/displaydeletecreditcards">Saved Credit Cards</a>
+                            <a class="dropdown-item" href="/orderhistory">Order History</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">
+                        Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">
+                        Profile
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/profile">Profile Page</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login" style="color:#FFFFFF; font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; ">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

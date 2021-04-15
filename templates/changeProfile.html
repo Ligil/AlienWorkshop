@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Change Profile{% endblock %}
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css') }}">
+<section id="one" class="wrapper style4">
+    <div class="inner">
+        <br><br><br><br>
+        <div class="grid-style">
+            <h1 class="display-4">Change Profile Information</h1>
+            <section id="one" class="wrapper style4">
+                <div class="inner">
+                    <div class="grid-style">
+                        <div>
+                            <p>Change the information below to your desired details</p>
+                            <form method="POST" action="">
+                                <div class="form-group">
+                                    {{ render_field(form.firstName, class="form-control") }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field(form.lastName, class="form-control") }}
+                                </div>
+                                <div class="form-group">
+                                    {{ render_field(form.gender, class="form-control") }}
+                                </div>
+                                <input type="submit" value="Submit" class="btn btn-primary" onclick="return confirm('Are you sure?');">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

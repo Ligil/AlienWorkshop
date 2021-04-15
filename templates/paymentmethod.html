@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Payment Method{% endblock %}
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<div class="container-fluid col-sm-4 border rounded">
+    <h1 class="display-4">Select Your Credit Card Payment Option</h1>
+    <form method="POST" action="">
+        <table>
+            {% for creditcardtype in creditcarddict %}
+                {% for creditcards in creditcarddict[creditcardtype] %}
+                <tr>
+                    <td><input type="radio" name="selectcreditcard" value="{{creditcards.get_creditCardCount()}} " checked></td>
+
+                    {% if creditcardtype == "Mastercard" %}
+                    <td><img class="align-middle " src="{{url_for('static', filename='img/Mastercard.png') }}"></td>
+                    {% elif creditcardtype == "Visa" %}
+                    <td><img class="align-middle " src="{{url_for('static', filename='img/Visa.png') }}"></td>
+                    {% endif %}
+
+                    <td>{{creditcards.get_creditcardnumber()}}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><a href="/addcreditcard">Add a credit card</a></td>
+            </tr>
+        </table>
+        <input type="submit" value="Checkout" class="btn btn-primary"/>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+function savecreditcard(creditcardobject) {
+    var creditcard = document.getElementById(creditcardobject);
+        var ids = {
+          userId:userId,
+          orderId:orderId,
+          status:strUser
+        }
+        fetch(`${window.origin}/change_status`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(ids),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var response = data
+                console.log(response)
+            });
+        });
+    }
+</script>
+{% endblock %}

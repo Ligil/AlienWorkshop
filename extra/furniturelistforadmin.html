@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Library Loan System - Home{% endblock %}
+{% block content %}
+
+<h1 class="display-4">Retrieve Furniture</h1>
+<div>
+ {% if count == 0 %}
+    <p>There are no items.</p>
+ {% elif count == 1 %}
+    <p>There is 1 item.</p>
+ {% else %}
+    <p>There are {{ count }} items.</p>
+ {% endif %}
+</div>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Furniture ID</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for furniture in furnitureList %}
+            <tr>
+                <td>{{ furniture.get_furnitureID() }}</td>
+                <td>
+                    <div class="col-sm-4 border rounded">
+                        <img class='productsPicture' src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                    </div>
+                </td>
+             </tr>
+             {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

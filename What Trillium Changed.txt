@@ -1,0 +1,94 @@
+Form ReviewForm
+app.route('/ourProduct/review/<int:id>/')
+ourProductsReview.html
+review.css
+
+Review class
+Furniture class add 
+1. reviews attribute, get set
+User class add
+1. reviews made
+
+
+Please delete db afterwards
+
+Error fix:
+CreateFurniture change to get_furnitureID()
+Validations: Fix all validations, session, and html titles
+
+
+    furnitureDict = {}
+    db = shelve.open('storage.db', 'c') #assign storage file to variable database, c stands for read and write
+    try:
+        furnitureDict = db['Furniture'] #assign Furniture storage into usersDict
+    except:
+        pass
+    db.close()
+
+    #check if valid id in url
+    if id not in furnitureDict:
+        return redirect(url_for('ourProduct'))
+
+    form = ReviewForm()
+    if request.method == 'POST':
+        #---------- Retrieve Reviews from furnitureObject--------#
+        furnitureObject = furnitureDict[id]
+        reviewsDict = furnitureObject.get_reviews()
+        #Set review id
+        try:
+            reviewsDict['lastId'] += 1
+        except:
+            reviewsDict['lastId'] = 1
+        reviewId = reviewsDict['lastId'] #For saving into furnitureObject Reviews
+
+        #------------Creating Object------------#
+        reviewText = form.review.data
+        stars = int(request.form.get('star'))
+        userId = session['USERID']
+        timePosted = date.today()
+        now = datetime.now()
+        timePosted = now.strftime("%d/%m/%y %H:%M")
+        print(timePosted)
+        print(reviewText, stars, userId, timePosted)
+
+        reviewObject = Review.Review(reviewId, reviewText, stars, userId, timePosted)
+        #---------SAVING THE IMAGE, IF IMAGE HAS DATA--------------#
+        f = form.image.data
+        print(f)
+        if f != None: #if there is data, save it
+            print('Saving image')
+            if f.filename == "":
+                print("Image must have a filename")
+                return redirect(request.url)
+            if not allowed_image(f.filename):
+                print("that image extension is not allowed")
+                return redirect(request.url)
+            else:
+                filename = secure_filename(f.filename)
+                ext = filename.rsplit(".", 1)[1] #get extension
+                filename = str(furnitureObject.get_furnitureID()) + 'review' + str(reviewId) + '.' + ext
+                f.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+                reviewObject.set_filename(filename)
+        #--------------Saving Reviews in FurnitureObject ReviewsDict----------------#
+        reviewsDict[reviewId] = reviewObject
+        furnitureObject.set_reviews(reviewsDict) #Furniture object is now updated
+        print('Reviews in furnitureObject:', furnitureObject.get_reviews())
+        #---------Making user object record reviews made --------#
+        db = shelve.open('storage.db', 'c')
+        usersDict = db['Users']
+        currentUserObject = usersDict[userId]
+        reviewsDict = currentUserObject.get_reviewsDict()
+        if id not in reviewsDict:
+            reviewsDict[id] = [reviewId]
+        else:
+            reviewsForFurniture = reviewsDict[id]
+            reviewsForFurniture.append(reviewId)
+            reviewsDict[id] = reviewsForFurniture
+        print('Reviews:', reviewsDict)
+        currentUserObject.set_reviewsDict(reviewsDict)
+        #--------Saving Users and Furniture--------#
+        usersDict[userId] = currentUserObject
+        db['Users'] = usersDict
+        furnitureDict[id] = furnitureObject
+        db['Furniture'] = furnitureDict
+        db.close()

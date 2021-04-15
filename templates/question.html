@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Questions{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+
+{% if complete %}
+    <p>Thank you for your feedback</p>
+{% else %}
+
+<div class="col-sm-4 border rounded usercreatelogin container-fluid">
+    <form action="/question" method="POST" enctype="multipart/form-data">
+        <h4 class="display-4">What Would You Like To Tell Us?</h4>
+        <div class="form-group">
+            <!--<label for="question">Message</label>-->
+            {{ render_field(form.question, class="form-control") }}
+            <!--<input type="text" class="form-control" name="feedback" id="feedback" placeholder="Type here">-->
+        </div>
+        <button type="submit" class="btn btn-primary">SEND</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

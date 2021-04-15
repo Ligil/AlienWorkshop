@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Orders Database{% endblock %}
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<div>
+     <table class="table table-striped">
+         <thead>
+             <tr>
+                 <th>User ID</th>
+                 <th>Order Number</th>
+                 <th>Order Date</th>
+                 <th>Arrival Date</th>
+                 <th>Total Cost</th>
+                 <th>Delivery Status</th>
+                 <th>Delivery Address</th>
+                 <th>Order Completion Status</th>
+             </tr>
+         </thead>
+         <tbody>
+            {% for orders in orderslist %}
+             <tr>
+                 <td>{{ orders.get_userID() }}</td>
+                 <td>{{orders.get_orderID()}}</td>
+                 <td>{{orders.get_orderdate()}}</td>
+                 <td>{{orders.get_deliverydate()}}</td>
+                 <td>${{orders.get_totalcost()}}</td>
+                 <td><select id="{{orders.get_orderID()}}" onchange="change_status({{orders.get_userID()}}, {{orders.get_orderID()}})">
+
+                     <option value="Processing">Processing</option>
+                     {% if orders.get_deliverystatus() == "Delivery Complete" %}
+                     <option value="Delivery Complete" selected>Delivery Complete </option>
+                     {% else %}
+                     <option value="Delivery Complete" >Delivery Complete </option>
+                     {% endif %}
+                        </select>
+                 </td>
+                 <td>{{orders.get_deliveryaddress()}}</td>
+                 {% set completedstatusid = orders.get_orderID() + "1" %}
+                 <td><select id="{{completedstatusid}}" onchange="change_completionstatus({{orders.get_userID()}}, {{orders.get_orderID()}},{{completedstatusid}})">
+
+                     <option value="Incomplete">Incomplete</option>
+                     {% if orders.get_completionstatus() == "Completed" %}
+                     <option value="Completed" selected>Completed </option>
+                     {% else %}
+                     <option value="Completed" >Completed </option>
+                     {% endif %}
+                        </select>
+                 </td>
+             </tr>
+            {% endfor %}
+         </tbody>
+     </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function change_status(userId, orderId) {
+    var e = document.getElementById(orderId);
+    var strUser = e.options[e.selectedIndex].value;
+        var ids = {
+          userId:userId,
+          orderId:orderId,
+          status:strUser
+        }
+        fetch(`${window.origin}/change_status`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(ids),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var response = data
+                console.log(response)
+            });
+        });
+    }
+
+function change_completionstatus(userId, orderId,completedstatus) {
+    var e = document.getElementById(completedstatus);
+    var strUser = e.options[e.selectedIndex].value;
+        var ids = {
+          userId:userId,
+          orderId:orderId,
+          completionstatus:strUser
+        }
+        fetch(`${window.origin}/change_completionstatus`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(ids),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var response = data
+                console.log(response)
+            });
+        });
+    }
+</script>
+{% endblock %}

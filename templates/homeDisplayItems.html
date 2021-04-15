@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div>
+    <h1 class="display-4">Add items to put in Home Display</h1>
+    <p style="opacity:0.7">Click '+' Button to add to the Carousel List on the left, '-' to remove from the List</p>
+</div>
+<hr class="margin5">
+
+<div class="d-flex">
+    <div class="container-fluid">
+        <h4>Current Items</h4>
+        <div class="border minheight300 row position-fixed col-sm-5 padding0" id="items">
+            {% for furniture in list %}
+                <div style="display:none" class="col-sm-2 border-right containerForBottom padding0" id="{{ furniture.get_furnitureID()|string }}selected">
+                    <div class="margin5 marginbottom0">
+                        <a href="/ourProducts/{{furniture.get_furnitureID()}}" target="_blank">
+                            <div class="d-flex align-items-center">
+                                <img class="align-middle productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                            </div>
+                            <p class="marginbottom0">{{furniture.get_name()}}</p>
+                        </a>
+                    </div>
+                    <div class="bottomDiv w-100">
+                        <hr class="margin2">
+                        <div align="center">
+                            <input type="button" onclick="remove_item({{ furniture.get_furnitureID() }}) " class="col-sm-4 form-control tagblock" value="-">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h4>Items</h4>
+        <div class="border minheight300 row" id="options">
+            {% for furniture in list %}
+                <div class="col-sm-2 border-right containerForBottom padding0 border-bottom" id="{{furniture.get_furnitureID()}}">
+                    <div class="margin5 marginbottom50">
+                        <a href="/ourProducts/{{furniture.get_furnitureID()}}" target="_blank">
+                            <div class="d-flex align-items-center">
+                                <img class="align-middle productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                            </div>
+                            <p>{{furniture.get_name()}}</p>
+                        </a>
+                    </div>
+                    <div class="bottomDiv w-100">
+                        <hr class="margin2">
+                        <div align="center">
+                            <input type="button" onclick="add_item({{ furniture.get_furnitureID() }}) " class="col-sm-4 form-control tagblock" value="+">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function update(){
+        var array = {{ homeDisplayList }}
+        for (i in array){
+            var id = array[i]
+            console.log(id)
+            document.getElementById(id).style.display = "none";
+            var add = id + "selected";
+            document.getElementById(add).style.display = "block";
+        };
+    };
+    window.onload = update;
+
+    function add_item(id) {
+        fetch(`${window.origin}/add_item`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(id),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var response = data
+                console.log(response)
+
+                if (response == 'Full'){
+                    alert("Display box is already full at 6 items, remove one first!")
+                }
+                else {
+                    document.getElementById(id).style.display = "none";
+                    var add = id + "selected";
+                    document.getElementById(add).style.display = "block";
+                }
+            });
+        });
+    }
+
+    function remove_item(id) {
+        fetch(`${window.origin}/remove_item`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(id),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+        .then(function (response) {
+            if (response.status !== 200) {
+                console.log('Response status was not 200: ${response.status}');
+                return ;
+            }
+            response.json().then(function (data) {
+                var response = data
+
+                document.getElementById(id).style.display = "block";
+                var add = id + "selected";
+                document.getElementById(add).style.display = "none";
+            })
+        });
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block title %}Product Details{% endblock %}
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/review.css') }}">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Hidden data -->
+<p hidden id="furnitureID">{{ item.get_furnitureID() }}</p>
+<!-- -->
+
+<div class="row container-fluid d-flex align-items-center margin5 margintop10 ">
+    <h5 class="marginright5">Tags: </h5>
+    {% for tag in itemTagList %}
+        <a class="border rounded tagblock unhyperlink" href="/ourProducts/tag/{{ tag }}">{{ tag }}</a>
+    {% endfor %}
+</div>
+
+<div class="border rounded ourProductsBorder">
+    <div class="row ourProductsBorder">
+        <div class="col-sm-4 d-flex align-items-center border rounded">
+            <img class="productsPicture " src="{{url_for('static', filename='img/uploads/' + item.get_filename() ) }}" />
+        </div>
+        <div class="col-sm-8 border rounded" id="container">
+            <h1 class="display-4">{{ item.get_name() }}</h1>
+            <div class="d-flex">
+                <div>
+                    {% if starCount == 5 %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    {% elif starCount == 4 %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    {% elif starCount == 3 %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    {% elif starCount == 2 %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    {% elif starCount == 1%}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    {% elif starCount == 0%}
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    {% endif %}
+                </div>
+                <div class="marginleft5">
+                    ({{starCount1dp}})
+                </div>
+                <div class="marginleft10">
+                    {{reviewCount}} Reviews
+                </div>
+            </div>
+            <h4> ID: {{ item.get_furnitureID() }} &nbsp Cost: ${{ item.get_cost() }}</h4>
+            <h4>Dimensions (Length x Width x Height):</h4>
+            <p>{{ item.get_length() }}cm x {{ item.get_width() }}cm x {{ item.get_height() }}cm</p> <!-- Length Expands From 63 inches to 80.7 inches. Width: 35 inches. Height: 31.3 inches -->
+            <h4>Description:</h4>
+            <p>{{ item.get_description() }}</p>
+            <!-- <p>✓Perfect for 4-10 people with different height to dinner together with this dining table</p>
+            <p>✓Multiporpose Of Contemporary Dining Table: Can be Used As Conference Table,Center Table, Card And Game Table, Dining Table for 6-8 seating, Breakfast And Daybreak Table</p>-->
+            <div>
+                {% if session["USERID"] %}
+                <div class="d-flex align-items-center justify-content-end">
+                    <div class="margin2">Quantity:</div>
+
+                    <form method="POST" action="{{url_for('addToCart', id= item.get_furnitureID() )}}" enctype="multipart/form-data" class="d-flex align-items-center margin5 h-100">
+                        <input type='number' onkeypress="return false;" onkeydown="no_backspaces(event);" min="1" class="width75 margin5" id="quantity" name="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+
+                    <a class="btn btn-primary" href="/addToWishList/{{ item.get_furnitureID() }}">Add to Wishlist</a>
+                </div>
+                {% else %}
+                <p>Log in to add to Cart</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Recommended -->
+    {% if recoList %}
+    <div class="border rounded ourProductsBorder">
+        <h3>Here are some products with similar tags</h3>
+        <div class="row ourProductsBorder">
+        {% for furniture in recoList %}
+            <div class="col-sm-2 border-left border-right">
+                <a href="/ourProducts/{{furniture.get_furnitureID()}}">
+                    <div class="h-100 d-flex align-items-center">
+                        <img class="productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Current Reviews -->
+    {% if reviewObjectList %}
+    <div class="border rounded ourProductsBorder">
+        <h2 class="margin0">Reviews</h2>
+        <hr>
+            {% for review in reviewObjectList %}
+            <div class="border rounded padding10">
+                <div class="row col-sm-4 padding0 margin0 height50 w-100" id="reviewData">
+                    <img class="displayPicture profilePicture marginright10" src="{{url_for('static', filename= review.get_profileFilename() ) }}" />
+                    <div class="h-100 marginleft10">
+                        <div class="row margin0 height30">
+                            <div class="marginright5">{{ usersDict[review.get_userId()].get_username() }}</div>
+                            <div class="marginright5">{{ review.get_timePosted() }}</div>
+                            {% if session['USERID'] == review.get_userId() or session['ADMIN'] %}
+                            <form action="{{url_for('deleteReview', furnitureId=item.get_furnitureID(), reviewId=review.get_reviewId() )}}" method="POST">
+                                <input type="submit" value="DELETE" class="button alt small" onclick="return confirm('Are you sure you want to delete this review??');">
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% if review.get_stars() == 5 %}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        {% elif review.get_stars() == 4 %}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        {% elif review.get_stars() == 3 %}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {% elif review.get_stars() == 2 %}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {% elif review.get_stars() == 1 %}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <div class="row padding10 height200">
+                    {% if review.get_filename() != None %}
+                    <img class="displayPicture" src="{{url_for('static', filename='img/uploads/' + review.get_filename() ) }}" /><br>
+                    {% endif %}
+                    <p class="marginleft10">{{ review.get_reviewText() }}</p>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Review Post -->
+    <div class="border rounded ourProductsBorder d-flex height500">
+        {% if bought %}
+        <form method="POST" enctype="multipart/form-data" class="col-sm-6">
+            <h2>Add a review!</h2>
+            <hr>
+            <div class="form-group">
+                {{ render_field(form.review, class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ render_field(form.image, class="form-control", id='files') }}
+            </div>
+
+            <div class="rating">
+                <input type="radio" name="star" id="star5" value="5">
+                <label for="star5"></label>
+                <input type="radio" name="star" id="star4" value="4">
+                <label for="star4"></label>
+                <input type="radio" name="star" id="star3" value="3">
+                <label for="star3"></label>
+                <input type="radio" name="star" id="star2" value="2">
+                <label for="star2"></label>
+                <input checked type="radio" name="star" id="star1" value="1">
+                <label for="star1"></label>
+            </div>
+            <button type="submit" class="btn btn-primary">SEND</button>
+        </form>
+        <div class="col-sm-6" align="middle">
+            <img id="image" style="display:none" class="displayPicture"/>
+        </div>
+        {% else %}
+        <p>Buy item to add a review!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById("files").onchange = function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+        reader.readAsDataURL(this.files[0]);
+
+        document.getElementById("image").style.display = "block";
+    };
+
+    function no_backspaces(event){
+        backspace = 8;
+        if (event.keyCode == backspace) event.preventDefault();
+    }
+</script>
+{% endblock %}
+<i data-hook="review-star-rating" class="a-icon a-icon-star a-star-4 review-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i>
+<i data-hook="review-star-rating" class="a-icon a-icon-star a-star-5 review-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i>

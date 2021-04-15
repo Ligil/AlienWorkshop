@@ -1,0 +1,47 @@
+    function updateLowestPrice() {
+        var updatedData = $.get('/chartsLowestPrice')
+        updatedData.done(function(results) {
+            var data = {
+              labels: results.yaxis,
+              series: [results.xaxis]
+            };
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            barChart = new Chartist.Line(
+                '.ct-chart',
+                 data,
+                 {
+                    height: Math.max(labelsHeight, containerHeight) + 'px',
+                    axisY: {
+                      offset: 100
+                    }
+                }
+            );
+        });
+    };
+
+    function updateTopPrice() {
+        var updatedData = $.get('/chartsTopPrice')
+        updatedData.done(function(results) {
+            var data = {
+              labels: results.yaxis,
+              series: [results.xaxis]
+            };
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            barChart = new Chartist.Bar(
+                '.ct-chart',
+                 data,
+                 {
+                    height: Math.max(labelsHeight, containerHeight) + 'px',
+                    seriesBarDistance: 15,
+                    reverseData: true,
+                    horizontalBars: true,
+                    axisY: {
+                      offset: 100
+                    }
+                }
+            );
+        });
+    };
+    $("#TopPrice").on('click', updateTopPrice);

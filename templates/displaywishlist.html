@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Delivery{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <table class ='table table-responsive'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Item Description</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for furniture in furnitureList %}
+            <tr>
+                <td>{{ furniture.get_furnitureID()}}</td>
+                <th>{{ furniture.get_name() }}</th>
+                <th>{{ furniture.get_cost() }}</th>
+                <th>{{ furniture.get_description() }}</th>
+                <td>
+                    <a class="unhyperlink" href="/ourProducts/{{furniture.get_furnitureID()}}">
+                        <div class="height300 d-flex align-items-center">
+                            <img class="align-middle displayPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    <form method="POST" action="/deletewishlist/{{furniture.get_furnitureID()}}">
+                        <button type="submit" class="btn btn-danger">X</button>
+                    </form>
+                </td>
+
+              </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

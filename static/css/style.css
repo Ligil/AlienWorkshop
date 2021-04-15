@@ -1,0 +1,199 @@
+td{
+    padding: 5px;
+}
+
+.tagblock{
+    margin:1px;
+    padding:3px;
+}
+
+.usercreatelogin{
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.createbutton{
+    margin-top: 10px;
+    padding-left: 0px
+}
+
+.FAQNavigator{
+    padding: 10px;
+    padding-top: 20px;
+}
+.minheight200{
+    min-height: 200px;
+}
+.minheight300{
+    min-height: 300px;
+}
+.height30{
+    height: 30px;
+}
+.height50{
+    height: 50px;
+}
+.height100{
+    height: 100px;
+}
+.height200{
+    height: 200px;
+}
+.height300{
+    height: 300px;
+}
+.height500{
+    height: 500px;
+}
+.padding0{
+    padding: 0px;
+}
+.padding5{
+    padding: 5px;
+}
+.padding10{
+    padding: 10px;
+}
+.paddingbottom0{
+    padding-bottom:0px;
+}
+.margin0{
+    margin: 0px;
+}
+.margin2{
+    margin: 2px;
+}
+.margin5{
+    margin: 5px;
+}
+.margin10{
+    margin: 10px;
+}
+.margin100{
+    margin: 100px;
+}
+.marginleft5{
+    margin-left: 5px;
+}
+.marginleft10{
+    margin-left: 10px;
+}
+.marginleft20{
+    margin-left: 20px;
+}
+.marginright5{
+    margin-right: 5px;
+}
+.marginright20{
+    margin-right: 5px;
+}
+.margintop10{
+    margin-top: 10px;
+}
+.margintop60{
+    margin-top: 60px;
+}
+.margintop90{
+    margin-top: 90px;
+}
+.marginbottom0{
+    margin-bottom: 0px;
+}
+.marginbottom5{
+    margin-bottom: 5px;
+}
+.marginbottom10{
+    margin-bottom: 10px;
+}
+.marginbottom50{
+    margin-bottom: 50px;
+}
+.ourProductsBorder{
+    padding:10px;
+    margin:10px;
+}
+.productsPicture{
+    width: 100%;
+    max-height: 100%;
+}
+.displayPicture{
+    max-width: 100%;
+    height: 100%;
+}
+.profilePicture{
+  border-radius: 50%;
+}
+.searchBar{
+    width: 100%;
+}
+.width50{
+    width: 50px;
+}
+.width75{
+    width: 75px;
+}
+.width250{
+    width: 250px;
+}
+.maxwidth250{
+    max-width: 250px;
+}
+.searchButton{
+    width: 40px;
+    height: 40px;
+}
+.filtertagbutton{
+    background-color: #4CAF50; !important
+    color: blue; !important
+}
+
+.unhyperlink{
+    text-decoration: none !important;
+    color:black;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: blue;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: blue;
+}
+
+.medalSize{
+    width: 50px;
+    height: 80px;
+}
+
+#container {
+    position: relative;
+}
+#bottomdiv {
+    position: absolute;
+    bottom: 0;
+}
+
+.containerForBottom {
+    position: relative;
+}
+.bottomDiv {
+    position: absolute;
+    bottom: 0;
+    height:50px;
+}
+
+

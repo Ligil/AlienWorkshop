@@ -1,0 +1,29 @@
+2.1 Background
+You are a group of creative, innovative and energetic programmers who intend to build a web
+application to solve a problem. Using Design Thinking methodology, each team will come up with the
+project specification, create the design and build the entire application.
+The application must create user accounts, process transactions and provide useful enquiries and
+reports. There will be two groups of users for the application:
+
+    • Public / Customer
+    This group will do online transaction requests. The customer interfaces are desktop PC, Kiosk
+    and mobile devices (e.g. smartphone, pad, etc.).
+    • Staff
+    The staff will do backend processing of transactions and generate information for analysis to
+    make critical decisions for the company. The staff interface is desktop PC based.
+
+2.2 Project Theme
+• eCommerce: How might we use IT to improve inventory management system?
+
+2.3 Minimum Feature Requirements
+    • Must be web-based, primarily targeting desktop and laptop users.
+    • Must utilize Python class and object in the application.
+    • Must utilize Shelve for implementing persistent storage for Python objects.
+    • Data validation to ensure data consistency must be performed.
+    • Information update operation must be performed via Shelve
+
+User Management: Sean
+Product/Inventory Management: Trillium
+Order Management: Zion
+Delivery Management: Daniel
+FAQ Management: Adsel

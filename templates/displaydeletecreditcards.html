@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Delivery{% endblock %}
+{% block content %}
+<div>
+     <table class="table table-striped">
+         <thead>
+             <tr>
+                 <th>Credit Card Type</th>
+                 <th>Credit Card Number</th>
+                 <th>CVV/Security Code</th>
+                 <th>Expiry Date</th>
+                 <th>Name of Card Holder</th>
+                 <th>Country</th>
+                 <th>City</th>
+                 <th>Billing</th>
+                 <th>Postal Code</th>
+                 <th>Phone Number</th>
+                 <th>Delete</th>
+             </tr>
+         </thead>
+         <tbody>
+            {% for creditcard in cclist %}
+             <tr>{% if creditcard.get_creditcardtype() == "Mastercard" %}
+                    <td><img class="align-middle " width="100" height="100" src="{{url_for('static', filename='img/Mastercard.png') }}"></td>
+                    {% elif creditcard.get_creditcardtype() == "Visa" %}
+                    <td><img class="align-middle " width="100" height="100" src="{{url_for('static', filename='img/Visa.png') }}"></td>
+                    {% endif %}
+
+                 <td>{{ creditcard.get_creditcardnumber() }}</td>
+                 <td>{{creditcard.get_securitycode()}}</td>
+                 <td>{{creditcard.get_expdate()}}</td>
+                 <td>{{creditcard.get_fullname()}}</td>
+                 <td>{{creditcard.get_country()}}</td>
+                 <td>{{creditcard.get_city()}}</td>
+                 <td>{{creditcard.get_billing()}}</td>
+                 <td>{{creditcard.get_postalcode()}}</td>
+                 <td>{{creditcard.get_phonenumber()}}</td>
+                 <td>
+                    <form action="{{url_for('deleteCreditCard', id=creditcard.get_creditCardCount())}}" method="POST">
+                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Credit Card?');">
+                    </form>
+                 </td>
+             </tr>
+            {% endfor %}
+         </tbody>
+
+     </table>
+
+</div>
+
+
+{% endblock %}
+
+

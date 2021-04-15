@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+
+<h1 class="display-4">Our Products</h1>
+<div>
+ {% if count == 0 %}
+    <p>There are no items.</p>
+ {% elif count == 1 %}
+    <p>There is 1 item.</p>
+ {% else %}
+    <p>There are {{ count }} items.</p>
+ {% endif %}
+</div>
+
+<!-- items -->
+<div class="row border rounded ourProductsBorder">
+    <div class="border rounded col-sm-8 ourProductsProducts">
+        {% for furniture in furnitureList %}
+            {% if furniture.get_furnitureID() % 3 == 1 %}
+                <div class="row border rounded">
+            {% endif %}
+            <div class="col-sm-4 border rounded">
+                <a href="/ourProducts/{{furniture.get_furnitureID()}}">
+                    <img class="align-middle productsPicture" src="{{url_for('static', filename='img/uploads/' + furniture.get_filename() ) }}">
+                </a>
+            </div>
+            {% if furniture.get_furnitureID() % 3 == 0 or furniture.get_furnitureID() == count %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="border rounded col-sm-4 padding10">
+        {% if not session["USERID"] %}
+            <h3>Login to View Cart</h3>
+        {% elif cartcount == 0 %}
+            <h3>Cart is empty</h3>
+        {% else %}
+            <h3>Cart</h3>
+            <hr class="margin2">
+            {% for i in cart %}
+                <div class="row">
+                    <div class="col-sm-8"><p>Name: {{ furnitureDict[i].get_name() }}</p></div>
+                    <div class="col-sm-1"><p>x1</p></div>
+                    <div class="col-sm-1"><p>$200</p></div>
+                    <div class="col-sm-2"><a href="/deleteCart/{{ i }}" class="btn btn-danger">X</a></div>
+                </div>
+                <hr class="margin2">
+            {% endfor %}
+            <a class="btn btn-warning" href="/delivery">Confirm Order</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

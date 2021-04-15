@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Library Loan System - Home{% endblock %}
+{% block content %}
+<div class="border rounded ourProductsBorder">
+    <h1>White Table</h1>
+    <div class="row border rounded ourProductsBorder">
+        <div class="col-sm-4 border rounded"><img class="productsPicture" src="{{url_for('static', filename='Whitetable.jpg')}}" /></div>
+        <div class="col-sm-8 border rounded">
+            <h4>Dimensions:</h4>
+            <p>Length Expands From 63 inches to 80.7 inches. Width: 35 inches. Height: 31.3 inches</p>
+            <h4>Descriptions:</h4>
+            <p>✓Perfect for 4-10 people with different height to dinner together with this dining table</p>
+            <p>✓Multiporpose Of Contemporary Dining Table: Can be Used As Conference Table,Center Table, Card And Game Table, Dining Table for 6-8 seating, Breakfast And Daybreak Table</p>
+
+        </div>
+    </div>
+    <a class="btn btn-warning margin10" href="/ourProducts">Add to Cart</a>
+</div>
+
+{% endblock %}

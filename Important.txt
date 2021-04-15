@@ -1,0 +1,15 @@
+make inventory unavailable, grey out buying inventory item, and make button unavailable
+    html page of a screen consisting all of the furniture,
+
+• Use empathy to design features/functions that will benefits all the stakeholders
+	- Forget password, use question
+• Interfaces for batch uploading of data
+• Data Visualization on data collected
+• Alert Notification 
+
+Delete fucks up everything
+
+Image preview:
+https://stackoverflow.com/questions/14069421/show-an-image-preview-before-upload
+Sending Email:
+https://overiq.com/flask-101/sending-email-in-flask/

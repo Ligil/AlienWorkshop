@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h3>Chart - <span id="Title">Top Price</span></h3>
+<hr class="marginbottom0">
+<div class="d-flex">
+    <div class="ct-chart col-sm-6"></div>
+    <div class="margin10 marginleft20">
+        <table class="position-fixed col-sm-5 table table-striped border">
+            <tr>
+                <th colspan="2">Prices</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group d-flex align-items-center margin0">
+                        <input required type="button" class="form-control tagblock" id="TopPrice" value="Highest Price">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group d-flex align-items-center margin0">
+                        <input required type="button" class="form-control tagblock" id="LowestPrice" value="Lowest Price">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">Statistics</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group d-flex align-items-center margin0">
+                        <input required type="button" class="form-control tagblock" id="Revenue" value="Revenue">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group d-flex align-items-center margin0">
+                        <input required type="button" class="form-control tagblock" id="TopRated" value="Top Rated">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var barChart
+    var lineChart
+    /* Chart Load */
+    var getData = $.get('/chartsTopPrice');
+    getData.done(function(results) {
+
+        var data = {
+          labels: results.yaxis,
+          series: [results.xaxis]
+        };
+        var labelsHeight = results.yaxis.length * 80;
+        var containerHeight = $('.ct-chart').parent().outerHeight();
+        barChart = new Chartist.Bar(
+            '.ct-chart',
+             data,
+             {
+                height: Math.max(labelsHeight, containerHeight) + 'px',
+                seriesBarDistance: 15,
+                reverseData: true,
+                horizontalBars: true,
+                axisY: {
+                  offset: 100
+                }
+            }
+        );
+
+    });
+
+    /* TopPrice */
+    function updateTopPrice() {
+        var updatedData = $.get('/chartsTopPrice')
+        updatedData.done(function(results) {
+            var data = {
+              labels: results.yaxis,
+              series: [results.xaxis]
+            };
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            document.getElementById('Title').innerText = 'Top Price';
+            barChart = new Chartist.Bar(
+                '.ct-chart',
+                 data,
+                 {
+                    height: Math.max(labelsHeight, containerHeight) + 'px',
+                    seriesBarDistance: 15,
+                    reverseData: true,
+                    horizontalBars: true,
+                    axisY: {
+                      offset: 100
+                    }
+                }
+            );
+        });
+    };
+    $("#TopPrice").on('click', updateTopPrice);
+
+    /* LowestPrice */
+    function updateLowestPrice() {
+        var updatedData = $.get('/chartsLowestPrice')
+        updatedData.done(function(results) {
+            var data = {
+              labels: results.yaxis,
+              series: [results.xaxis]
+            };
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            document.getElementById('Title').innerText = 'Lowest Price';
+            barChart = new Chartist.Bar(
+                '.ct-chart',
+                 data,
+                 {
+                    height: Math.max(labelsHeight, containerHeight) + 'px',
+                    seriesBarDistance: 15,
+                    reverseData: true,
+                    horizontalBars: true,
+                    axisY: {
+                      offset: 100
+                    }
+                }
+            );
+        });
+    };
+    $("#LowestPrice").on('click', updateLowestPrice);
+
+    /* Revenue */
+    function updateRevenue() {
+        var updatedData = $.get('/chartsRevenue')
+        updatedData.done(function(results) {
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            document.getElementById('Title').innerText = 'Revenue';
+            new Chartist.Line('.ct-chart', {
+              labels: results.xaxis,
+              series: [results.yaxis]
+            }, {
+                height: Math.max(labelsHeight, containerHeight) + 'px',
+                fullWidth: true,
+                chartPadding: {
+                right: 40
+                }
+            });
+        });
+    };
+    $("#Revenue").on('click', updateRevenue);
+
+    /* TopRated */
+    function updateTopRated() {
+        var updatedData = $.get('/chartsTopRated')
+        updatedData.done(function(results) {
+            var data = {
+              labels: results.yaxis,
+              series: [results.xaxis]
+            };
+            var labelsHeight = results.yaxis.length * 80;
+            var containerHeight = $('.ct-chart').parent().outerHeight();
+            document.getElementById('Title').innerText = 'Top Rated';
+            barChart = new Chartist.Bar(
+                '.ct-chart',
+                 data,
+                 {
+                    height: Math.max(labelsHeight, containerHeight) + 'px',
+                    seriesBarDistance: 15,
+                    reverseData: true,
+                    horizontalBars: true,
+                    axisY: {
+                      offset: 100
+                    }
+                }
+            );
+        });
+    };
+    $("#TopRated").on('click', updateTopRated);
+
+</script>
+{% endblock %}

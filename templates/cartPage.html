@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<!--
+<div class="tooltip-wrap">
+  <img src="/some/image/file.jpg" alt="Some Image" />
+  <div class="tooltip-content">
+    <p>Here is some content for the tooltip</p>
+  </div>
+</div>
+-->
+
+<div>
+    {% if cartcount == 0 %}
+        <h3>Cart is empty</h3>
+        <hr>
+    {% else %}
+        <h3>Cart</h3>
+        <table class="table table-hover border-bottom">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th>Actions (Remove/Confirm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in cartDict %}
+                <tr>
+                    <td><a href="/ourProducts/{{furnitureDict[i].get_furnitureID()}}">{{ furnitureDict[i].get_name() }}</a></td>
+                    <td>{{ cartDict[i] }} x</td>
+                    <td>${{ furnitureDict[i].get_cost() }}</td>
+                    <td>${{ furnitureDict[i].get_cost() * cartDict[i] }}</td>
+
+                    <td>
+                        <form action="{{url_for('deleteCart', id= i )}}" method="POST">
+                            <input type="submit" value="X" class="button alt small" onclick="return confirm('Delete {{ furnitureDict[i].get_name() }} from cart?');">
+                        </form>
+                    </td>
+                 </tr>
+                 {% endfor %}
+                <tr>
+                    <td></td>
+                    {% if privilege %}
+                    <td>
+                        {% if totalSpent >= 1000 %}
+                            <img class="align-middle medalSize" src="{{url_for('static', filename='img/gold.png' ) }}">
+                        {% elif totalSpent >= 500 %}
+                            <img class="align-middle medalSize" src="{{url_for('static', filename='img/silver.png' ) }}">
+                        {% elif totalSpent >= 200 %}
+                            <img class="align-middle medalSize" src="{{url_for('static', filename='img/bronze.png' ) }}">
+                        {% endif %}
+                    </td>
+                    <td>
+                        Total:
+                        <br>
+                        You are a {{privilege}} member! ({{privilege}} Discount: {{discount}}% ) <hr>
+                        Final Total:
+                    </td>
+                    {% else %}
+                    <td></td>
+                    <td>Total:</td>
+                    {% endif %}
+                    <td>
+                        ${{ totalCost }}
+                        {% if totalDiscount %}
+                            <br>
+                            -${{ totalDiscount }}
+                            <hr>
+                            ${{ totalCost - totalDiscount }}
+                        {% endif %}
+                    <td><a class="btn border" href="/paymentmethod">Confirm Order</a></td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

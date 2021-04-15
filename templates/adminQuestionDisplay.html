@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Questions List{% endblock %}
+{% block content %}
+ <!-- take out from list calling entries inside -->
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css') }}">
+<table class="table table-striped margintop60">
+    <thead>
+        <tr>
+            <th>Questions</th>
+            <th>Replies</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for question in questionList %}
+        <tr>
+            <td>{{ question.get_question() }}</td>
+            {% if question.get_answer() != None %}
+            <td>{{ question.get_answer() }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td><a href="/adminReplies/{{question.get_questionId()}}" class="button alt small">Reply</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="container-fluid col-sm-4 border rounded usercreatelogin padding10">
+    {% if verified %}
+    <p>Account verified.</p>
+    {% else %}
+    <p>Email sent, click <a href="/verifyEmail">here</a> to resend email.</p>
+    {% endif %}
+</div>
+{% endblock %}
